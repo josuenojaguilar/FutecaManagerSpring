@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.josuenoj.futecaManager.model.User;
 import com.josuenoj.futecaManager.repository.UserRepository;
 import com.josuenoj.futecaManager.service.IService.IUserService;
+import com.josuenoj.futecaManager.utils.BCryptSecurity;
 
 @Service
 //Lógica de negocio
@@ -16,6 +17,9 @@ public class UserService implements IUserService {
     //Inyección de dependencia (Repositorio)
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    BCryptSecurity bCryptSecurity;
 
     @Override
     public List<User> listUsers(){
@@ -31,7 +35,9 @@ public class UserService implements IUserService {
     @Override
     public User register(User user){
         //Más lógica
-        //Encriptar password
+        if(user.getPassword() != null){
+            user.setPassword(bCryptSecurity.encodePassword(user.getPassword()));
+        }
         return userRepository.save(user);
     }
 

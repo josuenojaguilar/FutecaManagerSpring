@@ -6,15 +6,15 @@ import lombok.Data;
 
 @Data
 public class UserRegisterDTO {
-    @NotBlank
+    @NotBlank(message = "El nombre no puede ir vacío")
     private String name;
-    @NotBlank
+    @NotBlank(message = "El apellido no puede ir vacío")
     private String surname;
-    @NotBlank
+    @NotBlank(message = "El nombre de usuario no puede ir vacío")
     private String username;
     @Email
-    @NotBlank
+    @NotBlank(message = "El correo no puede ir vacío")
     private String email;
-    @NotBlank
+    @NotBlank(message = "La password no puede ir vacía")
     private String password;
 }
