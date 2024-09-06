@@ -44,8 +44,12 @@ public class UserService implements IUserService {
     @Override
     public boolean login(String username, String password){
         //Más lógica
+        User user = userRepository.findByUsername(username);
         //Validar que exista el usuario con ese username
+        if(user == null || !bCryptSecurity.checkPassword(password, user.getPassword())){
+            return false;
+        }
         //Validar que ese usuario tenga la contraseña que envió el usuario.
-        return false;
+        return true;
     }
 }

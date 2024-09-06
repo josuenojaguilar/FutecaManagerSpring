@@ -8,4 +8,5 @@ import com.josuenoj.futecaManager.model.User;
 //Evitar el uso de Querys en el código
 public interface UserRepository extends JpaRepository<User, Long> {
     //Modificaciones para hacer búsquedas personalizadas
+    public User findByUsername(String username);
 }

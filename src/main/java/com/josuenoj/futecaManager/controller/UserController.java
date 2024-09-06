@@ -5,12 +5,11 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.josuenoj.futecaManager.DTO.UserLoginDTO;
 import com.josuenoj.futecaManager.DTO.UserRegisterDTO;
-import com.josuenoj.futecaManager.configs.CloudinaryConfig;
 import com.josuenoj.futecaManager.model.User;
 import com.josuenoj.futecaManager.service.CloudinaryService;
 import com.josuenoj.futecaManager.service.UserService;
-import com.josuenoj.futecaManager.utils.BCryptSecurity;
 
 import jakarta.validation.Valid;
 
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -114,6 +114,26 @@ public class UserController {
             return ResponseEntity.internalServerError().body(res);
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserLoginDTO user) {
+        Map<String, Object> res = new HashMap<>();
+        try {
+            System.out.println(user.getPassword());
+            if(userService.login(user.getUsername(), user.getPassword())){
+                res.put("message", "Usuario logeado satisfactoriamente");
+                return ResponseEntity.ok(res);
+            }else{
+                res.put("message", "Credenciales inválidas");
+                return ResponseEntity.status(401).body(res);
+            }
+        } catch (Exception err) {
+            res.put("message", "Error general al iniciar sesión");
+            res.put("error", err);
+            return ResponseEntity.internalServerError().body(res);
+        }
+    }
+    
     
     
 }
